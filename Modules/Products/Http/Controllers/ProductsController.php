@@ -81,6 +81,7 @@ class ProductsController extends Controller
             ->addColumn('action' , function ($item) {
                 return $this->render($item);
             })
+			->rawColumns(['is_published' , 'action' , 'category' , 'type' , 'subProducts'])
             ->make(true);
     }
     // -------------------------------------------------------------------------------
