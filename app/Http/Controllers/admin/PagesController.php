@@ -4,13 +4,56 @@ namespace App\Http\Controllers\Admin;
 
 use App\Admin\Page;
 use App\Http\Controllers\Controller;
+use App\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class PagesController extends Controller
 {
     protected  $redirectPath = 'administrator/pages/list';
+
+    protected function validatePage($data){
+        $rules = [];
+        $locales = Config::get('translatable.localeList');
+
+        foreach ($locales as $key => $value) {
+            $rules[$key] = ['required','array'];
+            $rules[$key.'.title'] = ['required','max:100'];
+//            $rules[$key.'.slug'] = ['required','max:100','unique:page_translations,slug'];
+        }
+
+        $validator =  Validator::make($data, $rules);
+
+        if ($validator->fails())
+        {
+            $error = $validator->errors()->first();
+            return $validator->errors();
+        }
+        return false;
+    }
+
+    protected function validatePageUpdate($data , $page){
+        $rules = [];
+        $locales = Config::get('translatable.localeList');
+
+
+        foreach ($locales as $key => $value) {
+            $rules[$key] = ['required','array'];
+            $rules[$key.'.title'] = ['required','max:100'];
+//            $rules[$key.'.slug'] = ['required','max:100','unique:page_translations,slug,'.$page->id.',page_id'   ];
+        }
+
+        $validator =  Validator::make($data, $rules);
+
+        if ($validator->fails())
+        {
+            $error = $validator->errors()->first();
+            return $validator->errors();
+        }
+        return false;
+    }
 
     // -------------------------------------------------------------------------------
     public function index()
@@ -21,18 +64,50 @@ class PagesController extends Controller
     // -------------------------------------------------------------------------------
     public function add()
     {
-        return view('admin.pages.add')->with('title' , 'Page Create');
+        $tags = Tag::pluck('tag_name' , 'id');
+        $locales = Config::get('translatable.localeList');
+        return view('admin.pages.add' , compact('locales' , 'tags'))->with('title' , 'Page Create');
     }
     // -------------------------------------------------------------------------------
     public function create(Request $request)
     {
-        $this->validator($request->all())->validate();
+        $slug = slug_utf8($request->input('slug'));
+        $request->merge(['slug' => $slug]);
 
-        $request->merge(array('is_publish' , 'y'));
+        $validationResult = $this->validatePage($request->all());
+
+        if ($validationResult) {
+            return redirect()->back()->withInput($request->input())->withErrors($validationResult);
+        }
+
+        $adminUser = $request->user('web_admin');
+
+        $request->merge(['is_publish' => 'y']);
+        $request->merge(['admin_user_id' => $adminUser->id]);
         $data = $request->except(['_token']);
 
-        $request->user('web_admin')->pages()->create($data);
-//      Page::create($data);
+        $page = Page::create($data);
+
+        // Sync Keywords
+        $keywords = $request->input('keywords');
+
+        $finalKeywords = [];
+        if ($keywords){
+            foreach ($keywords as $key => $value) {
+                $tag = Tag::whereId($value)->first();
+                if ($tag) {
+                    array_push($finalKeywords , $tag->id);
+                } else {
+                    $newTag = Tag::create(['tag_name' => $value]);
+                    if ($newTag) {
+                        array_push($finalKeywords , $newTag->id);
+                    }
+                }
+            }
+        }
+
+        $page->tags()->sync($finalKeywords);
+        // Sync Keywords
 
         $request->session()->flash('Success', trans('notify.CREATE_SUCCESS_NOTIFICATION'));
         return redirect($this->redirectPath);
@@ -40,15 +115,51 @@ class PagesController extends Controller
     // -------------------------------------------------------------------------------
     public function edit(Page $page)
     {
-        return view('admin.pages.edit' , compact('page'))->with('title' , 'Edit: '.$page->title);
+        $locales = Config::get('translatable.localeList');
+        $selectedValue = null;
+
+        $tags = Tag::pluck('tag_name' , 'id');
+
+        if ($page->tags) {
+            $selectedTags = $page->tags->pluck('id');
+        } else {
+            $selectedTags = '';
+        }
+        return view('admin.pages.edit' , compact('page' , 'locales' , 'tags' , 'selectedTags'))->with('title' , 'Edit: '.$page->title);
     }
     // -------------------------------------------------------------------------------
     public function update(Request $request , Page $page)
     {
-        $this->validatorUpdate($request->all() , $page)->validate();
-        $data = $request->except(['_token']);
+        $validationResult = $this->validatePageUpdate($request->all() , $page);
 
+        if ($validationResult) {
+            return redirect()->back()->withInput($request->input())->withErrors($validationResult);
+        }
+
+
+        $data = $request->except(['_token']);
         $page->update($data);
+
+        // Sync Keywords
+        $keywords = $request->input('keywords');
+
+        $finalKeywords = [];
+        if ($keywords){
+            foreach ($keywords as $key => $value) {
+                $tag = Tag::whereId($value)->first();
+                if ($tag) {
+                    array_push($finalKeywords , $tag->id);
+                } else {
+                    $newTag = Tag::create(['tag_name' => $value]);
+                    if ($newTag) {
+                        array_push($finalKeywords , $newTag->id);
+                    }
+                }
+            }
+        }
+
+        $page->tags()->sync($finalKeywords);
+        // Sync Keywords
 
         $request->session()->flash('Success', trans('notify.UPDATE_SUCCESS_NOTIFICATION'));
         return redirect($this->redirectPath);
@@ -58,28 +169,6 @@ class PagesController extends Controller
         $page->delete();
         $request->session()->flash('success', trans('notify.DELETE_SUCCESS_NOTIFICATION'));
         return redirect($this->redirectPath);
-    }
-    // -------------------------------------------------------------------------------
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'title'  => 'required|max:100|unique:pages,title',
-            'slug'   => 'required|max:100|unique:pages,slug',
-            'body'   => 'required|min:3',
-            'p_body' => 'required|min:3'
-        ]);
-    }
-    // -------------------------------------------------------------------------------
-    protected function validatorUpdate(array $data , $page)
-    {
-        return Validator::make($data, [
-            'title'  => 'required|max:100',
-            'slug'   => 'required|max:100|unique:pages,slug,'.$page->id,
-            'body'   => 'required|min:3',
-            'p_body' => 'required|min:3',
-            'image'  => 'image|mimes:jpeg,png,jpg|max:1024'
-
-        ]);
     }
     // -------------------------------------------------------------------------------
     protected function PageImageDelete(Page $page){
