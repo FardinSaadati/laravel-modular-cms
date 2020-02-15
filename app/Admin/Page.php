@@ -2,25 +2,28 @@
 
 namespace App\Admin;
 
+use App\Tag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 class Page extends Model
 {
+    use \Dimsav\Translatable\Translatable;
+
     use Notifiable;
     use SoftDeletes;
 
     protected $table = 'pages';
+    public $translatedAttributes = ['title', 'slug' , 'meta' ,'desc'];
 
     protected $fillable = [
-        'title', 'slug' , 'body' , 'p_body' , 'is_published' , 'views'
+        'is_published' , 'views' , 'admin_user_id'
     ];
 
-    public function getRouteKeyName()
+    public function tags()
     {
-        return 'slug';
+        return $this->morphToMany(Tag::class, 'taggable');
     }
-
 
 }

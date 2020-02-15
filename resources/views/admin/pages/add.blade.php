@@ -7,72 +7,63 @@
                 <div class="panel-heading">{{$title}}</div>
                 <div class="panel-body">
 
-                    {!! Form::open(array('route' => 'admin.pages.create', 'method' => 'POST' , 'id' => 'AddNewsForm' , 'files' => true )) !!}
+                    <ul class="nav nav-tabs">
+                        @php $i = 0; @endphp
+                        @foreach($locales as $key => $value)
+                            @php $i++; @endphp
+                            <li class="{{$i == 1 ? 'active' : ''}}" data-event-tab data-tab-data="{{$key}}">
+                                <a href="#{{$key}}" data-toggle="tab" aria-expanded="false">
+                                    <i class="fa fa-language"></i>&nbsp;{{ $value }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
 
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-6 col-xs-12">
-                                <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
-                                    <label class="control-label">
-                                        <span>Title</span>
-                                    </label>
-                                    <div class="input-icon right">
-                                        @if($errors->has('title'))
-                                            <i class="fa fa-exclamation tooltips" data-container="body"></i>
-                                        @endif
-                                        {!! Form::text('title' , null , ['class' => 'form-control' , 'placeholder' => 'Title']) !!}
-                                        <span class="validation-message-block">{{ $errors->first('title', ':message') }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xs-12">
-                                <div class="form-group {{ $errors->has('slug') ? 'has-error' : '' }}">
-                                    <label class="control-label">
-                                        <span>Slug</span>
-                                    </label>
-                                    <div class="input-icon right">
-                                        @if($errors->has('slug'))
-                                            <i class="fa fa-exclamation tooltips" data-container="body"></i>
-                                        @endif
-                                        {!! Form::text('slug' , null , ['class' => 'form-control' , 'placeholder' => 'Slug (User friendly URL)']) !!}
-                                        <span class="validation-message-block">{{ $errors->first('slug', ':message') }}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12 col-xs-12">
-                                <div class="form-group {{ $errors->has('body') ? 'has-error' : '' }}">
-                                    <label class="control-label">
-                                        <span>Body</span>
-                                    </label>
-                                    <div class="input-icon right">
-                                        @if($errors->has('body'))
-                                            <i class="fa fa-exclamation tooltips" data-container="body"></i>
-                                        @endif
-                                        {!! Form::textarea('body' , null , ['class' => 'form-control mce' , 'placeholder' => 'Body of the news']) !!}
-                                        <span class="validation-message-block">{{ $errors->first('body', ':message') }}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12 col-xs-12">
-                                <div class="form-group {{ $errors->has('body') ? 'has-error' : '' }}">
-                                    <label class="control-label">
-                                        <span>Persian Body</span>
-                                    </label>
-                                    <div class="input-icon right">
-                                        @if($errors->has('p_body'))
-                                            <i class="fa fa-exclamation tooltips" data-container="body"></i>
-                                        @endif
-                                        {!! Form::textarea('p_body' , null , ['class' => 'form-control mce' , 'placeholder' => 'Persian Body']) !!}
-                                        <span class="validation-message-block">{{ $errors->first('p_body', ':message') }}</span>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade active in" id="active">
+                            {!! Form::open(array('route' => 'admin.pages.create', 'method' => 'POST' , 'id' => 'AddNewsForm' , 'files' => true )) !!}
                         </div>
+                        @php $e = 0; @endphp
+                        @foreach($locales as $key => $value)
+                            @php $e++; @endphp
+                            <div class="tab-pane fade {{$e == 1 ? 'active in' : ''}}" id="{{$key}}">
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="form-group {{ $errors->has($key.'.title') ? 'has-error' : '' }}">
+                                        <label class="control-label">* {{$value}} Page Title</label>
+                                        {!! Form::text( $key.'[title]' , null , ['class' => 'form-control']) !!}
+                                        <span class="validation-message-block">{{ $errors->first($key.'.title', ':message') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="form-group {{ $errors->has($key.'.meta') ? 'has-error' : '' }}">
+                                        <label class="control-label">* {{$value}} Meta Description</label>
+                                        {!! Form::text( $key.'[meta]' , null , ['class' => 'form-control']) !!}
+                                        <span class="validation-message-block">{{ $errors->first($key.'.meta', ':message') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="form-group {{ $errors->has($key.'.desc') ? 'has-error' : '' }}">
+                                        <label class="control-label">{{$value}} Description</label>
+                                        {!! Form::textarea($key.'[desc]', null , array('class' => 'form-control input-sm mce tm_textArea', 'rows' => '5')) !!}
+                                        <span class="validation-message-block">{{ $errors->first($key.'.desc', ':message') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+
                     </div>
 
                     <div class="col-md-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="edit-label">
+                                <i class="fa fa-globe" aria-hidden="true"></i>
+                                <span>Keywords</span>
+                            </label>
+
+                            {!! Form::select('keywords[]' , $tags , [] , ['class' => '', 'multiple' => '"multiple' , 'size' => 1  , 'style' => 'width: 100%' , 'id' => 'keywords' ]) !!}
+                        </div>
                         <hr/>
                         <div class="">
                             <div class="pull-right">
@@ -91,7 +82,6 @@
 </div>
 @stop
 
-
 @section('header')
 <link href="{{asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{asset('assets/plugins/select2/css/select2-bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
@@ -104,6 +94,10 @@
 $("#cat_list").select2({
     placeholder: 'Select Categories' ,
     maximumSelectionLength: 2
+});
+$('#keywords').select2({
+    placeholder: 'Select keywords',
+    tags: true
 });
 M6.initTinyMCE();
 M6.tabInitialize();

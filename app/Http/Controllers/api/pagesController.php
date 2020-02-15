@@ -19,8 +19,8 @@ class pagesController extends Controller
 
     public function getSpecificPage($slug)
     {
-        $page = Page::where('slug' , $slug)->first();
-        return response()->json($page);
+        $page = Page::whereTranslation('slug' , $slug)->first();
+        return response()->json(['title' => $page->{'title:fa'} , 'slug' => $page->{'slug:fa'} , 'meta' => $page->{'meta:fa'} ,  'p_body' => $page->{'desc:fa'}]);
     }
 
 
