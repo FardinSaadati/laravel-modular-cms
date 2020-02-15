@@ -71,6 +71,7 @@ class StoresController extends Controller
             ->addColumn('action' , function ($store) {
                 return $this->render($store);
             })
+			->rawColumns(['status' , 'action' , 'type'])
             ->make(true);
     }
     // -------------------------------------------------------------------------------
