@@ -235,6 +235,55 @@
                         </li>
                     @endcan
 
+
+                    @can(config('permissions.PERMISSION_SKILLS'))
+                    <li class="nav-item {{(strpos(URL::current(),url('administrator/skills')) !== false ) ? 'active open': '' }}">
+                        <a href="javascript:;" class="nav-link nav-toggle ">
+                            <i class="fa fa-bolt"></i>
+                            <span class="title">Skills</span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item start {{(strpos(URL::current(),url('administrator/skills/categories')) !== false ) ? 'active open': '' }} ">
+                                <a href="{{route('admin.skills.categories')}}" class="nav-link ">
+                                    <i class="fa fa-folder"></i>
+                                    <span class="title">Categories</span>
+                                </a>
+                            </li>
+                            <li class="nav-item start {{(strpos(URL::current(),url('administrator/skills/list')) !== false ) ? 'active open': '' }} ">
+                                <a href="{{ route('admin.skills.list') }}" class="nav-link ">
+                                    <i class="fa fa-bolt"></i>
+                                    <span class="title">Skills</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    @endif
+
+                    @can(config('permissions.PERMISSION_PROJECTS'))
+                        <li class="nav-item {{(strpos(URL::current(),url('administrator/projects')) !== false ) ? 'active open': '' }}">
+                            <a href="javascript:;" class="nav-link nav-toggle ">
+                                <i class="fa fa-briefcase"></i>
+                                <span class="title">Projects</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start {{(strpos(URL::current(),url('administrator/projects/categories')) !== false ) ? 'active open': '' }} ">
+                                    <a href="{{route('admin.projects.categories')}}" class="nav-link ">
+                                        <i class="fa fa-folder"></i>
+                                        <span class="title">Categories</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start {{(strpos(URL::current(),url('administrator/projects/list')) !== false ) ? 'active open': '' }} ">
+                                    <a href="{{ route('admin.projects.list') }}" class="nav-link ">
+                                        <i class="fa fa-briefcase"></i>
+                                        <span class="title">Projects</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
+
                     @if( hasModule('Stores') )
                         @can(config('permissions.PERMISSION_STORES'))
                             <li class="nav-item {{(strpos(URL::current(),url('administrator/stores/list')) !== false ) ? 'active open': '' }}">

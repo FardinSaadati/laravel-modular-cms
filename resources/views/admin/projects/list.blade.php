@@ -90,7 +90,7 @@
 @stop
 
 @section('footer')
-<script src="{{asset('global/plugins/jquery-ui-1.12.1/jquery-ui.min.js')}}"></script>
+<script src="{{asset('assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js')}}"></script>
 <script>
     M6.ajaxStatusChange('projects/AjaxStatusUpdate');
     M6.ajaxOrderingSystem('projects/AjaxSort');

@@ -1,7 +1,7 @@
 @extends('admin.include.layout')
 
 @section('header')
-    <link href="{{asset('global/plugins/jquery-ui-1.12.1/jquery-ui.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/plugins/jquery-ui-1.12.1/jquery-ui.min.css')}}" rel="stylesheet" type="text/css" />
     <style>
         .progress{
             height: 19px;
@@ -93,7 +93,7 @@
 @stop
 
 @section('footer')
-<script src="{{asset('global/plugins/jquery-ui-1.12.1/jquery-ui.min.js')}}"></script>
+<script src="{{asset('assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js')}}"></script>
 <script>
 M6.ajaxStatusChange('skills/AjaxStatusUpdate');
 M6.ajaxOrderingSystem('skills/AjaxSort');

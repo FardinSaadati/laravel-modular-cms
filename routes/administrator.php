@@ -80,5 +80,51 @@ Route::group( ['prefix' => 'administrator'] ,function() {
         });
         // Pages Section    -------------------------------------------------------------------------------------
 
+        // Skills Section   -------------------------------------------------------------------------------------
+        Route::group( ['middleware' => 'can:'.config('permissions.PERMISSION_SKILLS')] ,function() {
+            Route::get('/skills/list', ['as' => 'admin.skills.list', 'uses' => 'admin\SkillsController@index']);
+            Route::get('/skills/add', ['as' => 'admin.skills.add', 'uses' => 'admin\SkillsController@add']);
+            Route::post('/skills/create', ['as' => 'admin.skills.create', 'uses' => 'admin\SkillsController@create']);
+            Route::get('/skills/edit/{skill}', ['as' => 'admin.skills.edit', 'uses' => 'admin\SkillsController@edit']);
+            Route::post('/skills/update/{skill}', ['as' => 'admin.skills.update', 'uses' => 'admin\SkillsController@update']);
+            Route::get('/skills/delete/{skill}', ['as' => 'admin.skills.delete', 'uses' => 'admin\SkillsController@delete']);
+            Route::post('/skills/AjaxStatusUpdate', ['as' => 'admin.skills.status', 'uses' => 'admin\SkillsController@statusUpdate']);
+            Route::get('/skills/image/delete/{skill}', ['as' => 'admin.skills.image.delete', 'uses' => 'admin\SkillsController@SkillImageDelete']);
+
+            Route::get('/skills/categories', ['as' => 'admin.skills.categories', 'uses' => 'admin\SkillsController@categoryList']);
+            Route::get('/skills/categories/add', ['as' => 'admin.skills.categories.add', 'uses' => 'admin\SkillsController@categoryAdd']);
+            Route::post('/skills/categories/create', ['as' => 'admin.skills.categories.create', 'uses' => 'admin\SkillsController@categoryCreate']);
+            Route::get('/skills/categories/edit/{skill_cat}', ['as' => 'admin.skills.categories.edit', 'uses' => 'admin\SkillsController@categoryEdit']);
+            Route::post('/skills/categories/update/{skill_cat}', ['as' => 'admin.skills.categories.update', 'uses' => 'admin\SkillsController@categoryUpdate']);
+            Route::post('/skills/categories/AjaxStatusUpdate', ['as' => 'admin.skills.categories.status', 'uses' => 'admin\SkillsController@categoryStatusUpdate']);
+            Route::get('/skills/categories/delete/{skill_cat}', ['as' => 'admin.skills.categories.delete', 'uses' => 'admin\SkillsController@categoryDelete']);
+
+            Route::post('/skills/AjaxSort', ['as' => 'admin.skills.AjaxSort', 'uses' => 'admin\SkillsController@AjaxSort']);
+        });
+        // Skills Section   -------------------------------------------------------------------------------------
+
+
+        // Projects Section   -------------------------------------------------------------------------------------
+        Route::group( ['middleware' => 'can:'.config('permissions.PERMISSION_PROJECTS')] ,function() {
+            Route::get('/projects/list', ['as' => 'admin.projects.list', 'uses' => 'admin\ProjectsController@index']);
+            Route::get('/projects/add', ['as' => 'admin.projects.add', 'uses' => 'admin\ProjectsController@add']);
+            Route::post('/projects/create', ['as' => 'admin.projects.create', 'uses' => 'admin\ProjectsController@create']);
+            Route::get('/projects/edit/{project}', ['as' => 'admin.projects.edit', 'uses' => 'admin\ProjectsController@edit']);
+            Route::post('/projects/update/{project}', ['as' => 'admin.projects.update', 'uses' => 'admin\ProjectsController@update']);
+            Route::get('/projects/delete/{project}', ['as' => 'admin.projects.delete', 'uses' => 'admin\ProjectsController@delete']);
+            Route::post('/projects/AjaxStatusUpdate', ['as' => 'admin.projects.status', 'uses' => 'admin\ProjectsController@statusUpdate']);
+            Route::get('/projects/image/delete/{project}', ['as' => 'admin.projects.image.delete', 'uses' => 'admin\ProjectsController@ProjectImageDelete']);
+
+            Route::get('/projects/categories', ['as' => 'admin.projects.categories', 'uses' => 'admin\ProjectsController@categoryList']);
+            Route::get('/projects/categories/add', ['as' => 'admin.projects.categories.add', 'uses' => 'admin\ProjectsController@categoryAdd']);
+            Route::post('/projects/categories/create', ['as' => 'admin.projects.categories.create', 'uses' => 'admin\ProjectsController@categoryCreate']);
+            Route::get('/projects/categories/edit/{project_cat}', ['as' => 'admin.projects.categories.edit', 'uses' => 'admin\ProjectsController@categoryEdit']);
+            Route::post('/projects/categories/update/{project_cat}', ['as' => 'admin.projects.categories.update', 'uses' => 'admin\ProjectsController@categoryUpdate']);
+            Route::post('/projects/categories/AjaxStatusUpdate', ['as' => 'admin.projects.categories.status', 'uses' => 'admin\ProjectsController@categoryStatusUpdate']);
+            Route::get('/projects/categories/delete/{project_cat}', ['as' => 'admin.projects.categories.delete', 'uses' => 'admin\ProjectsController@categoryDelete']);
+
+            Route::post('/projects/AjaxSort', ['as' => 'admin.projects.AjaxSort', 'uses' => 'admin\ProjectsController@AjaxSort']);
+        });
+        // Projects Section   -------------------------------------------------------------------------------------
     });
 });
