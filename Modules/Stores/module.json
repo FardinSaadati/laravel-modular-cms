@@ -3,7 +3,7 @@
     "alias": "stores",
     "description": "",
     "keywords": [],
-    "active": 0,
+    "active": 1,
     "order": 0,
     "providers": [
         "Modules\\Stores\\Providers\\StoresServiceProvider"

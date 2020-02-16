@@ -19,6 +19,29 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $visitors = DB::table('visitors')->select( DB::raw('count(*) as total') , DB::raw('CONCAT_WS("/",month(created_at),year(created_at)) as monthYear'))
+            ->groupby('monthYear')
+            ->orderBy('monthYear' , 'ASC')
+            ->limit(12)
+            ->get('total' , 'monthYear');
+
+        $array = [];
+        foreach ($visitors as $d) {
+            $array[]= [
+                $d->monthYear ,
+                $d->total
+            ];
+        }
+
+        $countryReport = DB::table('visitors')->select( DB::raw('count(*) as visits') , 'country')
+            ->groupby('country')
+            ->limit(12)
+            ->get('visits' , 'country');
+
+        foreach ($countryReport as $d){
+            $d->color  = generateColor() ;
+        }
+
         $data = DB::table('users')
             ->select( DB::raw('count(*) as total') , DB::raw('CONCAT_WS("/",month(created_at),year(created_at)) as monthYear'))
             ->groupby('monthYear')
@@ -45,9 +68,9 @@ class DashboardController extends Controller
         foreach ($orderArray as $d){
             $d->color  = generateColor() ;
         }
-//        dd($orderArray);
+
         $lastActivities = Admin::orderBy('last_active' , 'DESC')->limit(5)->get();
-        return view('admin.dashboard' , compact('candidateArray', 'orderArray' , 'lastActivities' , 'taskNumber'))->with('title' , 'Dashboard');
+        return view('admin.dashboard' , compact('array' , 'countryReport' , 'candidateArray', 'orderArray' , 'lastActivities' , 'taskNumber'))->with('title' , 'Dashboard');
     }
 
     public function mediaManager()
