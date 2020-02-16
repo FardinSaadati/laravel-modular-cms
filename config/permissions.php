@@ -20,6 +20,9 @@ return [
     'PERMISSION_COMMENTS'                   =>  'comments',
     'PERMISSION_EVENTS'                     =>  'events',
     'PERMISSION_VALIDITY'                   =>  'validity',
+    'PERMISSION_PORTFOLIO'                  =>  'portfolio',
+    'PERMISSION_PORTFOLIO_CATEGORIES'       =>  'portfolioCategories',
+    'PERMISSION_SERVICES'                   =>  'services',
 
     // Permissions ---------------------------------------------------------------------------------------
 

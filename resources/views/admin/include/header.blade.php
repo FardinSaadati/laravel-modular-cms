@@ -68,7 +68,6 @@
             <!-- BEGIN TOP NAVIGATION MENU -->
             <div class="top-menu">
                 <ul class="nav navbar-nav pull-right">
-
                     <!-- BEGIN USER LOGIN DROPDOWN -->
                     <li class="dropdown dropdown-user">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
@@ -104,11 +103,18 @@
                     </li>
                     <!-- END USER LOGIN DROPDOWN -->
 
+                    <li class="dropdown">
+                        <a href="{{route('home')}}" title="View website" target="_blank" class="dropdown-toggle" data-hover="dropdown" data-close-others="true" aria-expanded="false">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <ul class="dropdown-menu">
 
+                        </ul>
+                    </li>
 
                     @can(config('permissions.PERMISSION_SETTINGS'))
                     <li class="dropdown">
-                        <a href="{{route('admin.site.settings')}}" class="dropdown-toggle" data-hover="dropdown" data-close-others="true" aria-expanded="false">
+                        <a href="{{route('admin.site.settings')}}" title="Settings" class="dropdown-toggle" data-hover="dropdown" data-close-others="true" aria-expanded="false">
                             <i class="fa fa-gear"></i>
                         </a>
                         <ul class="dropdown-menu">
@@ -272,6 +278,60 @@
                         @endcan
                     @endif
 
+
+                    @if( hasModule('Portfolio') )
+                        @can(config('permissions.PERMISSION_PORTFOLIO'))
+                            <li class="nav-item {{ (strpos(URL::current(),url('administrator/portfolio/list')) !== false ) || (strpos(URL::current(),url('administrator/portfolio/categories')) !== false ) ? 'active open': '' || (strpos(URL::current(),url('administrator/portfolio/designers')) !== false ) ? 'active open': '' }}">
+                                <a href="javascript:;" class="nav-link nav-toggle ">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span class="title">Portfolio Section</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li class="nav-item {{(strpos( URL::current(),url('administrator/portfolio/list')) !== false ) ? 'active open': '' }}">
+                                        <a href="{{route('admin.portfolio.list')}}" class="nav-link nav-toggle">
+                                            <i class="fa fa-image"></i>
+                                            <span class="title">Portfolio</span>
+                                            <span class="selected"></span>
+                                        </a>
+                                    </li>
+
+                                    @can(config('permissions.PERMISSION_PORTFOLIO_CATEGORIES'))
+                                        <li class="nav-item {{(strpos(URL::current(),url('administrator/portfolio/categories')) !== false ) ? 'active': '' }}">
+                                            <a href="{{route('admin.portfolio.categories')}}" class="nav-link nav-toggle">
+                                                <i class="fa fa-folder-open-o"></i>
+                                                <span class="title">Portfolio Categories</span>
+                                                <span class="selected"></span>
+                                            </a>
+                                        </li>
+                                    @endcan
+
+                                    {{--<li class="nav-item {{(strpos(URL::current(),url('administrator/portfolio/designers')) !== false ) ? 'active': '' }}">--}}
+                                        {{--<a href="{{route('admin.portfolio.designers')}}" class="nav-link nav-toggle">--}}
+                                            {{--<i class="fa fa-user-circle"></i>--}}
+                                            {{--<span class="title">Portfolio Designers</span>--}}
+                                            {{--<span class="selected"></span>--}}
+                                        {{--</a>--}}
+                                    {{--</li>--}}
+
+                                </ul>
+                            </li>
+                        @endcan
+                    @endif
+
+                    @if( hasModule('Khadamat') )
+                        @can(config('permissions.PERMISSION_SERVICES'))
+                            <li class="nav-item {{(strpos( URL::current(),url('administrator/services/list')) !== false ) ? 'active open': '' }}">
+                                <a href="{{route('admin.services.list')}}" class="nav-link nav-toggle">
+                                    <i class="fa fa-gears"></i>
+                                    <span class="title">Services</span>
+                                    <span class="selected"></span>
+                                </a>
+                            </li>
+                        @endcan
+                    @endif
+
+
                     @if( hasModule('News') )
                         @can(config('permissions.PERMISSION_NEWS'))
                         <li class="nav-item {{ (strpos(URL::current(),url('administrator/news/list')) !== false ) || (strpos(URL::current(),url('administrator/news/categories')) !== false ) ? 'active open': '' }}">
@@ -344,18 +404,6 @@
                         @endcan
                     @endif
 
-                    @if( hasModule('Validity') )
-                        @can(config('permissions.PERMISSION_VALIDITY'))
-                            <li class="nav-item {{(strpos(URL::current(),url('administrator/validity')) !== false ) ? 'active open': '' }}">
-                                <a href="{{route('admin.validity.list')}}" class="nav-link nav-toggle">
-                                    <i class="icon-key"></i>
-                                    <span class="title">Authorized Identifications</span>
-                                    <span class="selected"></span>
-                                </a>
-                            </li>
-                        @endcan
-                    @endif
-
                     @if( hasModule('Magazines') )
                         @can(config('permissions.PERMISSION_MAGAZINES'))
                             <li class="nav-item {{ (strpos(URL::current(),url('administrator/magazines/list')) !== false ) || (strpos(URL::current(),url('administrator/magazines/categories')) !== false ) ? 'active open': '' }}">
@@ -387,6 +435,7 @@
                             </li>
                         @endcan
                     @endif
+
 
                     @if( hasModule('Sale') )
                         @can(config('permissions.PERMISSION_SALE'))
