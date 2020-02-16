@@ -332,7 +332,7 @@
                         @can(config('permissions.PERMISSION_PORTFOLIO'))
                             <li class="nav-item {{ (strpos(URL::current(),url('administrator/portfolio/list')) !== false ) || (strpos(URL::current(),url('administrator/portfolio/categories')) !== false ) ? 'active open': '' || (strpos(URL::current(),url('administrator/portfolio/designers')) !== false ) ? 'active open': '' }}">
                                 <a href="javascript:;" class="nav-link nav-toggle ">
-                                    <i class="fa fa-shopping-cart"></i>
+                                    <i class="fa fa-pencil-square"></i>
                                     <span class="title">Portfolio Section</span>
                                     <span class="arrow"></span>
                                 </a>
