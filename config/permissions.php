@@ -23,6 +23,8 @@ return [
     'PERMISSION_PORTFOLIO'                  =>  'portfolio',
     'PERMISSION_PORTFOLIO_CATEGORIES'       =>  'portfolioCategories',
     'PERMISSION_SERVICES'                   =>  'services',
+    'PERMISSION_SKILLS'                     =>  'skills',
+    'PERMISSION_PROJECTS'                   =>  'projects',
 
     // Permissions ---------------------------------------------------------------------------------------
 

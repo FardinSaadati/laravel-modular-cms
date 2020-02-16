@@ -88,12 +88,12 @@
 
 
 @section('header')
-<link href="{{asset('global/plugins/icheck/skins/all.css ')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/plugins/icheck/skins/all.css ')}}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('footer')
-<script src="{{asset('global/plugins/icheck/icheck.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('global/plugins/tinymce/tinymce.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/plugins/icheck/icheck.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/plugins/tinymce/tinymce.min.js')}}" type="text/javascript"></script>
 <script>
 tinymce.init({
         selector: '.mce',
@@ -111,7 +111,7 @@ tinymce.init({
 
         external_filemanager_path: Path+"filemanager/",
         filemanager_title:"Responsive Filemanager" ,
-        external_plugins: { "filemanager" : Path+"global/plugins/tinymce/plugins/responsivefilemanager/plugin.min.js"}
+        external_plugins: { "filemanager" : PublicPath+"assets/plugins/tinymce/plugins/responsivefilemanager/plugin.min.js"}
 
     });
 </script>

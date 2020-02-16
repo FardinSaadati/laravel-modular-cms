@@ -154,8 +154,8 @@
 @stop
 
 @section('header')
-<link href="{{asset('global/plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{asset('global/plugins/select2/css/select2-bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/plugins/select2/css/select2-bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
 <style>
     .red-check {
         border: 2px solid red !important;
@@ -166,8 +166,8 @@
 @stop
 
 @section('footer')
-<script src="{{asset('global/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('global/plugins/tinymce/tinymce.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/plugins/tinymce/tinymce.min.js')}}" type="text/javascript"></script>
 <script>
 $("#cat_list").select2({
         placeholder: 'Select Categories' ,

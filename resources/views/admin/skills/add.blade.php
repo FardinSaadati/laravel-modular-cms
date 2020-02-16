@@ -81,8 +81,8 @@
 
 
 @section('header')
-<link href="{{asset('global/plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{asset('global/plugins/select2/css/select2-bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/plugins/select2/css/select2-bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
 <style>
 canvas {
     margin-bottom: -115px;
@@ -91,9 +91,9 @@ canvas {
 @stop
 
 @section('footer')
-<script src="{{asset('global/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('global/plugins/knob/jquery.knob.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('global/plugins/tinymce/tinymce.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/plugins/knob/jquery.knob.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/plugins/tinymce/tinymce.min.js')}}" type="text/javascript"></script>
 <script>
 $(function() {
     $(".dial").knob({
